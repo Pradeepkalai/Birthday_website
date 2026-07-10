@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Journey to Your Birthday Gift</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <div class="cursor-star" aria-hidden="true"></div>
+  <canvas id="skyCanvas" class="sky-canvas" aria-hidden="true"></canvas>
+  <canvas id="celebrationCanvas" class="celebration-canvas" aria-hidden="true"></canvas>
+  <canvas id="confettiCanvas" class="confetti-canvas" aria-hidden="true"></canvas>
+  <div id="petals" class="petals" aria-hidden="true"></div>
+  <div id="heartLayer" class="heart-layer" aria-hidden="true"></div>
+
+  <button id="muteToggle" class="icon-button mute-toggle" aria-label="Toggle music">&#9834;</button>
+  <button id="themeToggle" class="icon-button theme-toggle" aria-label="Toggle day and night">&#9790;</button>
+  <button id="moonButton" class="moon-button" aria-label="Hidden moon message">&#9790;</button>
+
+  <main class="journey">
+    <section class="scene active loading-scene" data-scene="loading">
+      <div class="loading-card">
+        <div class="loading-stars" aria-hidden="true">
+          <span></span><span></span><span></span><span></span><span></span>
+        </div>
+        <div class="loading-ring" aria-hidden="true"></div>
+        <p class="eyebrow">A little universe is opening</p>
+        <p id="loadingCopy" class="loading-copy">Loading memories...</p>
+        <p id="loadingPercent" class="loading-percent">0%</p>
+        <h1 id="loadingTitle" class="loading-title">One special gift is waiting...</h1>
+      </div>
+    </section>
+
+    <section class="scene login-scene" data-scene="login">
+      <div class="panel login-panel">
+        <p class="eyebrow">Secret Love Portal</p>
+        <h2 id="portalTitle">The Journey to Your Birthday Gift</h2>
+        <form id="loginForm" class="login-form">
+          <label>Username<input id="username" type="text" autocomplete="off" placeholder="Enter username" required></label>
+          <label>Password<input id="password" type="password" placeholder="Enter password" required></label>
+          <button class="primary-button" type="submit">Unlock the vault</button>
+        </form>
+        <div id="loginHints" class="login-hints" hidden>
+          <p><strong>Username hint:</strong> You asked me to call like this(Movie).</p>
+          <p><strong>Password hint:</strong> Most familiar to you,think a while(ghost).</p>
+        </div>
+        <p id="loginMessage" class="form-message">Enter the secret details to begin.</p>
+      </div>
+    </section>
+
+    <section class="scene welcome-scene" data-scene="welcome">
+      <div class="welcome-copy">
+        <p class="eyebrow">Dear <span class="heart-mark">&hearts;</span>,</p>
+        <h2 id="typedWelcome"></h2>
+        <button class="primary-button next-button" data-next="timeline">Continue</button>
+      </div>
+    </section>
+
+    <section class="scene" data-scene="timeline">
+      <div class="section-head">
+        <p class="eyebrow">Our Story</p>
+        <h2>Every little moment became a map to today.</h2>
+      </div>
+      <div class="timeline">
+        <button class="memory-dot active" data-memory="First Chat|2024|The first message(september '10') that quietly changed the weather,most memorable day.">First Chat</button>
+        <button class="memory-dot" data-memory="First Call|2024|One call, it changed my life more fabulously and interestingly.">First Call</button>
+        <button class="memory-dot" data-memory="First Photo with ur Smile|2025|That smile became my favorite place(February '18'), but nee enkooda sapdala.">First Photo with ur Smile</button>
+        <button class="memory-dot" data-memory="Today|Now|The universe celebrates the day you came into my life.">Today</button>
+      </div>
+      <div id="memoryCard" class="memory-card"></div>
+      <button class="primary-button next-button" data-next="heartGame">Catch hearts</button>
+    </section>
+
+    <section class="scene" data-scene="heartGame">
+      <div class="game-layout">
+        <div>
+          <p class="eyebrow">Heart Challenge</p>
+          <h2>Collect 20 hearts to unlock the next clue.</h2>
+          <p class="score-line">Collected: <strong id="heartScore">0</strong>/20</p>
+          <button id="startHearts" class="primary-button">Start mission</button>
+        </div>
+        <div id="heartGameArea" class="heart-game-area"><div id="basket" class="basket">&hearts;</div></div>
+      </div>
+      <button class="primary-button next-button locked" data-next="puzzle" data-requires="hearts">Unlock puzzle</button>
+    </section>
+
+    <section class="scene" data-scene="puzzle">
+      <div class="section-head compact">
+        <p class="eyebrow">Puzzle #1</p>
+        <h2>Put the memory back together.</h2>
+      </div>
+      <div id="puzzleBoard" class="puzzle-board" aria-label="Image puzzle"></div>
+      <p id="puzzleStatus" class="status-text">Tap two tiles to swap them.</p>
+      <button class="primary-button next-button locked" data-next="scratch" data-requires="puzzle">Next surprise</button>
+    </section>
+
+    <section class="scene" data-scene="scratch">
+      <div class="scratch-wrap">
+        <p class="eyebrow">Scratch Card</p>
+        <h2>One surprise is hiding under the silver.</h2>
+        <div class="scratch-card">
+          <div class="scratch-message">You're officially stuck with me forever.</div>
+          <canvas id="scratchCanvas" width="520" height="240"></canvas>
+        </div>
+      </div>
+      <button class="primary-button next-button locked" data-next="quiz" data-requires="scratch">Take the quiz</button>
+    </section>
+
+    <section class="scene" data-scene="quiz">
+      <div class="quiz-panel">
+        <p class="eyebrow">Guess My Favorite</p>
+        <h2 id="quizQuestion"></h2>
+        <div id="quizAnswers" class="quiz-answers"></div>
+        <p id="quizFeedback" class="status-text"></p>
+      </div>
+      <button class="primary-button next-button locked" data-next="gallery" data-requires="quiz">Open gallery</button>
+    </section>
+
+    <section class="scene" data-scene="gallery">
+      <div class="section-head">
+        <p class="eyebrow">Our Gallery</p>
+        <h2>Memories hanging softly on the wall.</h2>
+      </div>
+      <div class="polaroid-wall" aria-label="Memory polaroid wall">
+        <button class="polaroid polaroid-one" data-title="First Photo" data-date="First" data-memory="The day we take our first photo together." data-photo="/images/first.jpeg">
+          <span class="pin"></span><img src="/images/first.jpeg" alt="First photo memory"><span>First Photo</span>
+        </button>
+        <button class="polaroid polaroid-two" data-title="First Outing" data-date="Together" data-memory="A soft day, a shared smile, and one photo we start travelling." data-photo="/images/mall.jpeg">
+          <span class="pin"></span><img src="/images/mall.jpeg" alt="First Outing memory"><span>First Outing</span>
+        </button>
+        <button class="polaroid polaroid-three" data-title="College Moment" data-date="College" data-memory="The kind of look that says more than a whole letter can,the dream come true moment." data-photo="/images/clg.jpeg">
+          <span class="pin"></span><img src="/images/clg.jpeg" alt="College moment memory"><span>College Moment</span>
+        </button>
+        <button class="polaroid polaroid-four" data-title="First wish" data-date="Beach" data-memory="Sunlight, waves, and the smile I want to keep remembering,the first wish u ask to me." data-photo="/images/beach.jpeg">
+          <span class="pin"></span><img src="/images/beach.jpeg" alt="First wish memory"><span>First wish</span>
+        </button>
+        <button class="polaroid polaroid-five" data-title="Profile Picture" data-date="Birthday" data-memory="You, looking beautiful as always,when I see u on ur profile picture. That is the whole gift before the gift." data-photo="/images/profile.jpeg">
+          <span class="pin"></span><img src="/images/profile.jpeg" alt="Profile picture memory"><span>Profile Picture</span>
+        </button>
+      </div>
+      <div id="memoryLightbox" class="memory-lightbox" hidden>
+        <button id="closeMemory" class="memory-close" aria-label="Close memory">X Cancel</button>
+        <img id="memoryPhoto" src="/images/profile.jpeg" alt="">
+        <div>
+          <p id="memoryDate" class="eyebrow"></p>
+          <h2 id="memoryTitle"></h2>
+          <p id="memoryText"></p>
+        </div>
+      </div>
+      <button class="primary-button next-button" data-next="voice">Play message</button>
+    </section>
+
+    <section class="scene" data-scene="voice">
+      <div class="voice-panel">
+        <p class="eyebrow">Voice Message</p>
+        <h2>Press play when the room is quiet.</h2>
+        <button id="voiceButton" class="play-button" aria-label="Play birthday voice message">&#9658;</button>
+        <p class="status-text">You can replace this with your own audio file later.</p>
+      </div>
+      <button class="primary-button next-button" data-next="letter">Read letter</button>
+    </section>
+
+    <section class="scene" data-scene="letter">
+      <div class="letter-paper">
+        <p class="eyebrow">Love Letter</p>
+        <div id="letterScroll" class="letter-scroll" tabindex="0" aria-label="Scrollable love letter">
+          <h2 id="typedLetter"></h2>
+        </div>
+        <button id="scrollLetter" class="letter-scroll-button" type="button">Scroll letter</button>
+      </div>
+      <button class="primary-button next-button" data-next="map">Find the map</button>
+    </section>
+
+    <section class="scene" data-scene="map">
+      <div class="map-layout">
+        <div>
+          <p class="eyebrow">Treasure Map</p>
+          <h2>Move around the map. The secret gets warmer near the X.</h2>
+          <p id="mapHint" class="status-text">Cold...</p>
+        </div>
+        <div id="treasureMap" class="treasure-map">
+          <span class="route-line"></span>
+          <button id="hiddenX" aria-label="Hidden X mark">X</button>
+        </div>
+      </div>
+      <button class="primary-button next-button locked" data-next="box" data-requires="map">Open mystery box</button>
+    </section>
+
+    <section class="scene" data-scene="box">
+      <div class="dark-room">
+        <p class="eyebrow">Mystery Box</p>
+        <div id="giftBox" class="gift-box" role="button" tabindex="0" aria-label="Open carefully">
+          <span>*</span><div class="box-lid"></div><div class="box-body"></div><span>*</span>
+        </div>
+        <button id="openBox" class="primary-button">Open Carefully</button>
+        <div id="giftReveal" class="gift-reveal" hidden>
+          <h2>Congratulations &hearts;</h2>
+          <p>Your gift is waiting...</p>
+          <strong>Look inside your blue backpack. Front zipper.</strong>
+        </div>
+      </div>
+      <button class="primary-button next-button locked" data-next="final" data-requires="box">Final celebration</button>
+    </section>
+
+    <section class="scene final-scene" data-scene="final">
+      <div class="final-copy" id="finalCopy">
+        <p id="finalTyped" class="final-typed"></p>
+        <div id="birthdayFinale" class="birthday-finale" hidden>
+          <p class="cake">&#127874;</p>
+          <h2>Happy Birthday</h2>
+          <p>To</p>
+          <h1>The Best Person<br>I've Ever Met &hearts;</h1>
+          <p>Thank you for being my happiness.</p>
+        </div>
+        <button id="secretDoor" class="primary-button locked" data-requires="all">Secret page</button>
+      </div>
+    </section>
+
+    <section class="scene" data-scene="secret">
+      <div class="panel">
+        <p class="eyebrow">Secret Page</p>
+        <h2>You completed every challenge.</h2>
+        <p class="status-text">So here is the real secret: every page was just another way to say I love you.</p>
+      </div>
+    </section>
+  </main>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <script src="/js/app.js"></script>
+</body>
+</html>
