@@ -104,7 +104,7 @@ p { color: var(--muted); font-size: clamp(1rem, 1.8vw, 1.2rem); line-height: 1.7
 .falling-heart { position: absolute; top: -30px; color: var(--pink); font-size: 28px; }
 .basket { position: absolute; left: 50%; bottom: 16px; display: grid; place-items: center; width: 88px; height: 56px; color: var(--gold); border: 2px solid currentColor; border-radius: 0 0 42px 42px; font-size: 2rem; transform: translateX(-50%); }
 .puzzle-board { display: grid; grid-template-columns: repeat(3, 1fr); width: min(520px, 84vw); aspect-ratio: 1; gap: 7px; }
-.tile { border: 2px solid rgba(255,255,255,.14); border-radius: var(--radius); background-image: url("/images/puzzle-photo.jpg"); background-size: 300% 300%; background-repeat: no-repeat; cursor: pointer; transition: transform .15s ease, border-color .15s ease; }
+.tile { border: 2px solid rgba(255,255,255,.14); border-radius: var(--radius); background-image: url("images/puzzle-photo.jpg"); background-size: 300% 300%; background-repeat: no-repeat; cursor: pointer; transition: transform .15s ease, border-color .15s ease; }
 .tile.selected { transform: scale(.95); border-color: var(--gold); }
 .scratch-wrap { width: min(620px, 100%); text-align: center; }
 .scratch-card { position: relative; overflow: hidden; width: 100%; margin-top: 24px; border-radius: var(--radius); background: linear-gradient(135deg, #fff, #ffe4f0); box-shadow: var(--shadow); }
